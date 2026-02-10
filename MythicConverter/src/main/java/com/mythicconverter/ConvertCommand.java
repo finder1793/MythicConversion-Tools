@@ -13,24 +13,45 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Handles the /convertitems command.
+ * Handles the {@code /convertitems} command and its tab completion.
+ * <p>
+ * Subcommands:
+ * <ul>
+ *   <li>{@code all}    — Convert all MMOItems type files found in the item directory</li>
+ *   <li>{@code <TYPE>} — Convert a specific type (e.g. SWORD, ARMOR)</li>
+ *   <li>{@code list}   — List available MMOItems type files</li>
+ *   <li>{@code reload} — Reload config.yml and refresh all stat mappings</li>
+ *   <li>{@code help}   — Display in-game usage information</li>
+ * </ul>
+ * <p>
+ * Input is read from the MMOItems item directory (auto-detected or configured via
+ * {@code mmoitems-path} in config.yml). Output is written to the MythicMobs Items
+ * directory (or a custom path via {@code output-path}).
  *
- * Usage:
- *   /convertitems all              - Convert all MMOItems type files
- *   /convertitems <TYPE>           - Convert a specific type (e.g. SWORD, ARMOR)
- *   /convertitems list             - List available MMOItems type files
- *   /convertitems help             - Show help
+ * @see ItemConverter
+ * @see StatMappings
  */
 public class ConvertCommand implements CommandExecutor, TabCompleter {
 
+    /** Chat prefix prepended to all player-facing messages. */
     private static final String PREFIX = ChatColor.GOLD + "[MythicConverter] " + ChatColor.RESET;
 
+    /** Reference to the owning plugin instance for config and logger access. */
     private final MythicConverterPlugin plugin;
 
+    /**
+     * Constructs a new command handler.
+     *
+     * @param plugin the owning plugin instance
+     */
     public ConvertCommand(MythicConverterPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Dispatches the {@code /convertitems} command to the appropriate subcommand handler.
+     * Falls back to the help message when no arguments are provided.
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
@@ -74,6 +95,15 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    /**
+     * Converts every {@code .yml} file in the MMOItems item directory.
+     * Reports per-type results and a final summary to the sender.
+     *
+     * @param sender      the command sender to receive progress messages
+     * @param mmoitemsDir the MMOItems item directory containing type YAML files
+     * @param outputDir   the target directory for converted output files
+     * @param converter   the converter instance to use
+     */
     private void convertAll(CommandSender sender, File mmoitemsDir, File outputDir, ItemConverter converter) {
         File[] ymlFiles = mmoitemsDir.listFiles((dir, name) -> name.endsWith(".yml"));
         if (ymlFiles == null || ymlFiles.length == 0) {
@@ -110,6 +140,16 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(PREFIX + ChatColor.GRAY + "Output: " + outputDir.getAbsolutePath());
     }
 
+    /**
+     * Converts a single MMOItems type file (e.g. {@code SWORD.yml}).
+     * Attempts uppercase first, then lowercase filename if not found.
+     *
+     * @param sender      the command sender to receive progress messages
+     * @param mmoitemsDir the MMOItems item directory
+     * @param outputDir   the target directory for the converted output file
+     * @param converter   the converter instance to use
+     * @param typeName    the MMOItems type name in uppercase (e.g. "SWORD")
+     */
     private void convertType(CommandSender sender, File mmoitemsDir, File outputDir, ItemConverter converter, String typeName) {
         File inputFile = new File(mmoitemsDir, typeName + ".yml");
         if (!inputFile.exists()) {
@@ -136,6 +176,11 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    /**
+     * Lists all available MMOItems type files to the sender.
+     *
+     * @param sender the command sender to receive the list
+     */
     private void listTypes(CommandSender sender) {
         File mmoitemsDir = findMMOItemsDir();
         if (mmoitemsDir == null || !mmoitemsDir.isDirectory()) {
@@ -157,6 +202,11 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(PREFIX + ChatColor.GRAY + "Use /convertitems <type> or /convertitems all");
     }
 
+    /**
+     * Sends the help/usage message to the sender.
+     *
+     * @param sender the command sender to receive the help text
+     */
     private void sendHelp(CommandSender sender) {
         sender.sendMessage(ChatColor.GOLD + "=== MythicConverter Help ===");
         sender.sendMessage(ChatColor.YELLOW + "/convertitems all" + ChatColor.GRAY + " - Convert all MMOItems type files");
@@ -208,6 +258,11 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         return new File(serverRoot, "plugins/MythicMobs/Items");
     }
 
+    /**
+     * Provides tab-completion suggestions for the first argument.
+     * Suggests subcommands ({@code all}, {@code list}, {@code reload}, {@code help})
+     * plus any discovered MMOItems type names, filtered by the current input prefix.
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {

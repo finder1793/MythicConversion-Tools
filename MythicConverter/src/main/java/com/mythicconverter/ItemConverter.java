@@ -12,12 +12,32 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- * Core converter: reads MMOItems YAML, writes MythicCrucible YAML.
+ * Core conversion engine that reads MMOItems YAML item files and produces
+ * MythicCrucible-compatible YAML output.
+ * <p>
+ * Each MMOItems type file (e.g. {@code SWORD.yml}) contains one or more items
+ * keyed by their internal ID. Item data is typically nested under a {@code base}
+ * subsection. The converter scans every key in the item data, matches it against
+ * the configured {@link StatMappings}, and emits the appropriate MythicCrucible
+ * YAML structure (Attributes, Stats, Enchantments, Options, etc.).
+ * </p>
+ * <p>
+ * Features that cannot be directly converted (abilities, gem sockets, soulbound,
+ * item sets, permanent effects) are emitted as YAML comments with migration hints.
+ * </p>
+ *
+ * @see StatMappings
  */
 public class ItemConverter {
 
+    /** Logger for conversion progress and error reporting. */
     private final Logger logger;
 
+    /**
+     * Creates a new converter instance.
+     *
+     * @param logger the logger to use for conversion messages
+     */
     public ItemConverter(Logger logger) {
         this.logger = logger;
     }
@@ -70,7 +90,19 @@ public class ItemConverter {
     }
 
     /**
-     * Convert a single MMOItems item to MythicCrucible YAML format.
+     * Converts a single MMOItems item into a MythicCrucible YAML block.
+     * <p>
+     * Reads material, display name, lore, enchantments, attributes, custom stats,
+     * model data, hide flags, options (unbreakable, dye color, skull texture), and
+     * various MMOItems-specific features. Attributes are grouped under the correct
+     * equipment slot as determined by {@link StatMappings#getSlotForType(String)}.
+     * Percent-based stats are divided by 100 before output.
+     * </p>
+     *
+     * @param itemId   the internal item ID (used as the top-level YAML key)
+     * @param base     the configuration section containing the item's data
+     * @param typeName the MMOItems type name (e.g. "SWORD") for slot resolution
+     * @return the formatted MythicCrucible YAML string, or empty if nothing to convert
      */
     private String convertItem(String itemId, ConfigurationSection base, String typeName) {
         StringBuilder sb = new StringBuilder();
@@ -327,6 +359,13 @@ public class ItemConverter {
 
     // --- Utility methods ---
 
+    /**
+     * Extracts a numeric value from a config key, handling double, int, and string representations.
+     *
+     * @param section the configuration section to read from
+     * @param key     the key to extract
+     * @return the numeric value, or {@code 0} if the key is missing or non-numeric
+     */
     private double extractDouble(ConfigurationSection section, String key) {
         if (section.isDouble(key)) return section.getDouble(key);
         if (section.isInt(key)) return section.getInt(key);
@@ -338,6 +377,13 @@ public class ItemConverter {
         return 0;
     }
 
+    /**
+     * Extracts an integer value from a config key, handling int, double (truncated), and string representations.
+     *
+     * @param section the configuration section to read from
+     * @param key     the key to extract
+     * @return the integer value, or {@code 0} if the key is missing or non-numeric
+     */
     private int extractInt(ConfigurationSection section, String key) {
         if (section.isInt(key)) return section.getInt(key);
         if (section.isDouble(key)) return (int) section.getDouble(key);
@@ -349,6 +395,13 @@ public class ItemConverter {
         return 0;
     }
 
+    /**
+     * Formats a double for YAML output. Whole numbers are rendered without a decimal
+     * point (e.g. {@code 5} instead of {@code 5.0}).
+     *
+     * @param value the numeric value to format
+     * @return the formatted string representation
+     */
     private String formatNumber(double value) {
         if (value == (long) value) {
             return String.valueOf((long) value);
