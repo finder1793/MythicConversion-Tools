@@ -1,0 +1,16 @@
+name: MythicConverter
+version: ${version}
+main: com.mythicconverter.MythicConverterPlugin
+api-version: '1.21'
+description: Converts MMOItems item configs to MythicCrucible item configs
+author: MythicConverter
+commands:
+  convertitems:
+    description: Convert MMOItems configs to MythicCrucible configs
+    usage: /convertitems [type|all]
+    permission: mythicconverter.convert
+    aliases: [mconvert, mi2mc]
+permissions:
+  mythicconverter.convert:
+    description: Allows converting MMOItems configs
+    default: op

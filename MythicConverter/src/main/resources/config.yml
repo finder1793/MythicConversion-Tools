@@ -1,0 +1,216 @@
+# MythicConverter Configuration
+# ==============================
+
+# Custom path to MMOItems item directory (leave empty to auto-detect)
+# Default auto-detection looks for: plugins/MMOItems/item/
+mmoitems-path: ""
+
+# Output directory for converted item configs.
+# Default outputs to: plugins/MythicMobs/Items/
+# Set a custom path if you want to output elsewhere.
+output-path: ""
+
+# ==============================
+# ATTRIBUTE MAPPINGS
+# ==============================
+# Maps MMOItems stat keys to MythicMobs Attribute keys.
+# These end up under the "Attributes:" section in MythicMobs items.
+#
+# Format: mmoitems-key: "AttributeName [OPERATION]"
+#   AttributeName = MythicMobs attribute name (see BukkitAttribute aliases)
+#   OPERATION     = optional: ADD (default for most), ADD_SCALAR, MULTIPLY
+#
+# MythicMobs defaults: ATTACK_SPEED and MOVEMENT_SPEED use ADD_SCALAR,
+# all others use ADD. Only specify an operation if you need to override.
+attribute-mappings:
+  attack-damage: ATTACK_DAMAGE
+  attack-speed: ATTACK_SPEED
+  max-health: MAX_HEALTH
+  movement-speed: MOVEMENT_SPEED
+  flying-speed: FLYING_SPEED
+  attack-knockback: ATTACK_KNOCKBACK
+  armor: ARMOR
+  armor-toughness: ARMOR_TOUGHNESS
+  knockback-resistance: KNOCKBACK_RESISTANCE
+  max-absorption: MAX_ABSORPTION
+  luck: LUCK
+  scale: SCALE
+  follow-range: FOLLOW_RANGE
+  block-reach: BLOCK_INTERACTION_RANGE
+  entity-reach: ENTITY_INTERACTION_RANGE
+  safe-fall-distance: SAFE_FALL_DISTANCE
+  fall-damage-multiplier: FALL_DAMAGE_MULTIPLIER
+  gravity: GRAVITY
+  block-break-speed: BLOCK_BREAK_SPEED
+  jump-strength: JUMP_HEIGHT
+  step-height: STEP_HEIGHT
+  burning-time: BURNING_TIME
+  explosion-knockback-resistance: EXPLOSION_KNOCKBACK_RESISTANCE
+  mining-efficiency: MINING_EFFICIENCY
+  movement-efficiency: MOVEMENT_EFFICIENCY
+  oxygen-bonus: OXYGEN
+  sneaking-speed: SNEAKING_SPEED
+  submerged-mining-speed: SUBMERGED_MINING_SPEED
+  sweeping-damage-ratio: SWEEPING_DAMAGE_RATIO
+  water-movement-efficiency: WATER_MOVEMENT_EFFICIENCY
+  tempt-range: TEMPT_RANGE
+  spawn-reinforcements: SPAWN_REINFORCEMENTS
+
+# ==============================
+# PERCENT STATS
+# ==============================
+# MMOItems stats listed here store values as whole percentages in YAML
+# (e.g. 25 means 25%). The converter will divide these by 100 to produce
+# decimal values (e.g. 0.25) for MythicMobs output.
+#
+# This applies to both attribute-mappings and stat-mappings keys.
+# Only list the MMOItems key names (lowercase, hyphenated).
+percent-stats:
+  - critical-strike-chance
+  - critical-strike-power
+  - skill-critical-strike-chance
+  - skill-critical-strike-power
+  - block-power
+  - block-rating
+  - block-cooldown-reduction
+  - dodge-rating
+  - dodge-cooldown-reduction
+  - parry-rating
+  - parry-cooldown-reduction
+  - cooldown-reduction
+  - lifesteal
+  - spell-vampirism
+  - pvp-damage
+  - pve-damage
+  - weapon-damage
+  - skill-damage
+  - projectile-damage
+  - magic-damage
+  - physical-damage
+  - defense
+  - damage-reduction
+  - physical-damage-reduction
+  - projectile-damage-reduction
+  - magic-damage-reduction
+  - pvp-damage-reduction
+  - pve-damage-reduction
+  - undead-damage
+  - health-regeneration
+  - additional-experience
+  - fire-damage
+  - fire-damage-reduction
+  - ice-damage
+  - ice-damage-reduction
+  - wind-damage
+  - wind-damage-reduction
+  - earth-damage
+  - earth-damage-reduction
+  - thunder-damage
+  - thunder-damage-reduction
+  - water-damage
+  - water-damage-reduction
+  - darkness-damage
+  - darkness-damage-reduction
+  - lightness-damage
+  - lightness-damage-reduction
+
+# ==============================
+# STAT MAPPINGS
+# ==============================
+# Maps MMOItems stat keys to MythicMobs custom stat keys.
+# These end up under the "Stats:" section in MythicMobs items.
+# Format: mmoitems-key: MythicMobsStatKey
+stat-mappings:
+  # Combat stats
+  critical-strike-chance: CriticalStrikeChance
+  critical-strike-power: CriticalStrikePower
+  block-power: BlockPower
+  block-rating: BlockRating
+  block-cooldown-reduction: BlockCooldownReduction
+  dodge-rating: DodgeRating
+  dodge-cooldown-reduction: DodgeCooldownReduction
+  parry-rating: ParryRating
+  parry-cooldown-reduction: ParryCooldownReduction
+  cooldown-reduction: CooldownReduction
+  lifesteal: Lifesteal
+  spell-vampirism: SpellVampirism
+  additional-experience: AdditionalExperience
+  # Damage types
+  pvp-damage: PvPDamage
+  pve-damage: PvEDamage
+  weapon-damage: WeaponDamage
+  skill-damage: SkillDamage
+  projectile-damage: ProjectileDamage
+  magic-damage: MagicDamage
+  physical-damage: PhysicalDamage
+  undead-damage: UndeadDamage
+  # Defense
+  defense: Defense
+  damage-reduction: DamageReduction
+  physical-damage-reduction: PhysicalDamageReduction
+  projectile-damage-reduction: ProjectileDamageReduction
+  magic-damage-reduction: MagicDamageReduction
+  pvp-damage-reduction: PvPDamageReduction
+  pve-damage-reduction: PvEDamageReduction
+  # Skill crits
+  skill-critical-strike-chance: SkillCriticalStrikeChance
+  skill-critical-strike-power: SkillCriticalStrikePower
+  # Regeneration & resources
+  health-regeneration: HealthRegeneration
+  max-mana: MaxMana
+  mana-regeneration: ManaRegeneration
+  max-stamina: MaxStamina
+  stamina-regeneration: StaminaRegeneration
+  # Misc
+  arrow-velocity: ArrowVelocity
+  # Elemental damage
+  fire-damage: FireDamage
+  fire-damage-reduction: FireDamageReduction
+  ice-damage: IceDamage
+  ice-damage-reduction: IceDamageReduction
+  wind-damage: WindDamage
+  wind-damage-reduction: WindDamageReduction
+  earth-damage: EarthDamage
+  earth-damage-reduction: EarthDamageReduction
+  thunder-damage: ThunderDamage
+  thunder-damage-reduction: ThunderDamageReduction
+  water-damage: WaterDamage
+  water-damage-reduction: WaterDamageReduction
+  darkness-damage: DarknessDamage
+  darkness-damage-reduction: DarknessDamageReduction
+  lightness-damage: LightnessDamage
+  lightness-damage-reduction: LightnessDamageReduction
+
+# ==============================
+# SLOT MAPPINGS
+# ==============================
+# Maps MMOItems type names to MythicMobs equipment slot names.
+# Used to determine which slot attributes are placed under.
+# Leave value empty for types that don't have a slot (e.g. consumables).
+# Format: MMOITEMS_TYPE: MythicMobsSlot
+slot-mappings:
+  SWORD: MainHand
+  AXE: MainHand
+  HAMMER: MainHand
+  SPEAR: MainHand
+  DAGGER: MainHand
+  STAFF: MainHand
+  BOW: MainHand
+  CROSSBOW: MainHand
+  WHIP: MainHand
+  WAND: MainHand
+  MUSKET: MainHand
+  LUTE: MainHand
+  TOOL: MainHand
+  SHIELD: OffHand
+  OFFHAND: OffHand
+  HELMET: Head
+  CHESTPLATE: Chest
+  ARMOR: Chest
+  LEGGINGS: Legs
+  BOOTS: Feet
+  ACCESSORY: ""
+  CONSUMABLE: ""
+  MISCELLANEOUS: ""
+  GEM_STONE: ""
+  MATERIAL: ""
