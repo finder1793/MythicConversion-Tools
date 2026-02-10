@@ -1,6 +1,6 @@
 # MythicConverter
 
-A Bukkit/Paper plugin that converts [MMOItems](https://www.spigotmc.org/resources/mmoitems.39267/) item configuration files into [MythicCrucible](https://mythiccraft.io/index.php?pages/official-mythiccrucible-wiki/) / [MythicMobs](https://mythiccraft.io/index.php?pages/official-mythicmobs-wiki/) item format.
+A Bukkit/Paper plugin that converts [MMOItems](https://www.spigotmc.org/resources/mmoitems.39267/) item configuration files into [MythicCrucible](https://git.mythiccraft.io/mythiccraft/mythiccrucible/-/wikis/home) / [MythicMobs](https://git.mythiccraft.io/mythiccraft/MythicMobs/-/wikis/home) item format.
 
 ## Overview
 
