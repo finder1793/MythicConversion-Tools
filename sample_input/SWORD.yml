@@ -1,0 +1,61 @@
+EXAMPLE_SWORD:
+  base:
+    material: DIAMOND_SWORD
+    name: "&6Blade of the Fallen King"
+    lore:
+    - "&7A legendary sword forged in"
+    - "&7the fires of the ancient kingdom."
+    - ""
+    - "&eAttack Damage: &f+15"
+    attack-damage: 15
+    attack-speed: 1.4
+    critical-strike-chance: 25
+    critical-strike-power: 50
+    custom-model-data: 7001
+    enchants:
+      sharpness: 5
+      unbreaking: 3
+      fire_aspect: 2
+    max-durability: 500
+    lifesteal: 5
+    element:
+      fire:
+        damage: 10
+        defense: 5
+    ability:
+      ability1:
+        type: FIREBOLT
+        mode: RIGHT_CLICK
+        damage: 8
+        cooldown: 5
+
+STARTER_SWORD:
+  base:
+    material: IRON_SWORD
+    name: "&fRecruit's Blade"
+    lore:
+    - "&7A simple sword given to new recruits."
+    attack-damage: 7
+    attack-speed: 1.6
+    custom-model-data: 7002
+
+VAMPIRIC_BLADE:
+  base:
+    material: NETHERITE_SWORD
+    name: "&4Vampiric Blade"
+    lore:
+    - "&7Drains the life force of enemies."
+    - "&cLifesteal: &f+10%"
+    attack-damage: 20
+    attack-speed: 1.2
+    critical-strike-chance: 15
+    lifesteal: 10
+    spell-vampirism: 5
+    custom-model-data: 7003
+    enchants:
+      sharpness: 7
+      sweeping_edge: 3
+    unbreakable: true
+    perm-effects:
+      speed:
+        amplifier: 1

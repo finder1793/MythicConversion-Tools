@@ -10,6 +10,11 @@ commands:
     usage: /convertitems [type|all]
     permission: mythicconverter.convert
     aliases: [mconvert, mi2mc]
+  convertia:
+    description: Convert ItemsAdder configs to MythicCrucible configs
+    usage: /convertia [file|all]
+    permission: mythicconverter.convert
+    aliases: [ia2mc]
 permissions:
   mythicconverter.convert:
     description: Allows converting MMOItems configs

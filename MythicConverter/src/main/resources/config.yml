@@ -10,6 +10,15 @@ mmoitems-path: ""
 # Set a custom path if you want to output elsewhere.
 output-path: ""
 
+# Custom path to ItemsAdder contents directory (leave empty to auto-detect)
+# Default auto-detection looks for: plugins/ItemsAdder/contents/
+# Fallback: plugins/ItemsAdder/data/items_packs/
+itemsadder-path: ""
+
+# Custom output path for converted ItemsAdder items (leave empty for default)
+# Default: plugins/MythicMobs/Items/ItemsAdder/
+ia-output-path: ""
+
 # ==============================
 # ATTRIBUTE MAPPINGS
 # ==============================

@@ -1,0 +1,36 @@
+ROYAL_CHESTPLATE:
+  base:
+    material: DIAMOND_CHESTPLATE
+    name: "&bRoyal Chestplate"
+    lore:
+    - "&7Worn by the royal guard."
+    - "&9Defense: &f+20"
+    armor: 10
+    armor-toughness: 3
+    max-health: 10
+    defense: 20
+    damage-reduction: 5
+    custom-model-data: 8001
+    enchants:
+      protection: 4
+      unbreaking: 3
+    dye-color:
+      red: 50
+      green: 50
+      blue: 200
+    required-level: 30
+
+SHADOW_BOOTS:
+  base:
+    material: NETHERITE_BOOTS
+    name: "&8Shadow Boots"
+    lore:
+    - "&7Silent as the night."
+    armor: 4
+    armor-toughness: 2
+    movement-speed: 0.05
+    dodge-rating: 15
+    custom-model-data: 8002
+    enchants:
+      protection: 4
+      feather_falling: 4

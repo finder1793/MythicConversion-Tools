@@ -13,45 +13,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Handles the {@code /convertitems} command and its tab completion.
+ * Handles the {@code /convertitems} command for converting MMOItems items to MythicCrucible.
  * <p>
  * Subcommands:
  * <ul>
- *   <li>{@code all}    — Convert all MMOItems type files found in the item directory</li>
+ *   <li>{@code all}    — Convert all MMOItems type files</li>
  *   <li>{@code <TYPE>} — Convert a specific type (e.g. SWORD, ARMOR)</li>
  *   <li>{@code list}   — List available MMOItems type files</li>
- *   <li>{@code reload} — Reload config.yml and refresh all stat mappings</li>
- *   <li>{@code help}   — Display in-game usage information</li>
+ *   <li>{@code reload} — Reload config and stat mappings</li>
+ *   <li>{@code help}   — Show help</li>
  * </ul>
- * <p>
- * Input is read from the MMOItems item directory (auto-detected or configured via
- * {@code mmoitems-path} in config.yml). Output is written to the MythicMobs Items
- * directory (or a custom path via {@code output-path}).
  *
  * @see ItemConverter
  * @see StatMappings
  */
 public class ConvertCommand implements CommandExecutor, TabCompleter {
 
-    /** Chat prefix prepended to all player-facing messages. */
     private static final String PREFIX = ChatColor.GOLD + "[MythicConverter] " + ChatColor.RESET;
 
-    /** Reference to the owning plugin instance for config and logger access. */
     private final MythicConverterPlugin plugin;
 
-    /**
-     * Constructs a new command handler.
-     *
-     * @param plugin the owning plugin instance
-     */
     public ConvertCommand(MythicConverterPlugin plugin) {
         this.plugin = plugin;
     }
 
-    /**
-     * Dispatches the {@code /convertitems} command to the appropriate subcommand handler.
-     * Falls back to the help message when no arguments are provided.
-     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
@@ -67,7 +52,7 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         if (args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
             StatMappings.loadFromConfig(plugin.getConfig(), plugin.getLogger());
-            sender.sendMessage(PREFIX + ChatColor.GREEN + "Config and mappings reloaded!");
+            sender.sendMessage(PREFIX + ChatColor.GREEN + "Config and mappings reloaded.");
             return true;
         }
 
@@ -258,11 +243,6 @@ public class ConvertCommand implements CommandExecutor, TabCompleter {
         return new File(serverRoot, "plugins/MythicMobs/Items");
     }
 
-    /**
-     * Provides tab-completion suggestions for the first argument.
-     * Suggests subcommands ({@code all}, {@code list}, {@code reload}, {@code help})
-     * plus any discovered MMOItems type names, filtered by the current input prefix.
-     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {

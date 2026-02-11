@@ -29,7 +29,9 @@ import java.util.logging.Logger;
  *
  * @see ItemConverter
  */
-public class StatMappings {
+public final class StatMappings {
+
+    private StatMappings() {}
 
     /**
      * Maps lowercase MMOItems stat keys to MythicMobs vanilla attribute values.
@@ -55,6 +57,27 @@ public class StatMappings {
      * (e.g. {@code 25} meaning 25%). The converter divides these by 100 before output.
      */
     public static final Set<String> PERCENT_STATS = new HashSet<>();
+
+    /**
+     * Keys that are handled specially (not numeric stats).
+     */
+    public static final Set<String> SPECIAL_KEYS = Set.of(
+            "material", "name", "lore", "custom-model-data", "enchants",
+            "unbreakable", "dye-color", "hide-enchants", "hide-potion-effects",
+            "skull-texture", "max-durability", "required-level", "two-handed",
+            "soulbound-level", "soulbinding-chance", "success-rate",
+            "gem-sockets", "item-level", "item-set", "item-tier",
+            "upgrade", "ability", "perm-effects", "element",
+            "revision-id", "displayed-type", "lore-format", "tooltip",
+            "item-particles", "arrow-particles", "projectile-particles",
+            "custom-sounds", "commands", "disable-interaction",
+            "disable-crafting", "disable-smelting", "disable-smithing",
+            "disable-enchanting", "disable-repairing", "disable-attack-passive",
+            "hide-dye", "hide-armor-trim", "trim-pattern", "trim-material",
+            "compatible-types", "compatible-ids", "compatible-materials",
+            "crafted-amount", "craft-permission", "craft-amount",
+            "tooltip-style", "item-model", "model"
+    );
 
     /**
      * Loads (or reloads) all mapping tables from the plugin configuration.
@@ -154,5 +177,22 @@ public class StatMappings {
      */
     public static String getSlotForType(String typeName) {
         return SLOT_MAP.getOrDefault(typeName.toUpperCase(), "MainHand");
+    }
+
+    /**
+     * Determine the MythicMobs equipment slot based on material name.
+     * Used as a fallback when no type-based slot mapping is available.
+     *
+     * @param material the Bukkit material name (e.g. "DIAMOND_SWORD", "IRON_HELMET")
+     * @return the equipment slot name
+     */
+    public static String getEquipSlot(String material) {
+        String mat = material.toUpperCase();
+        if (mat.equals("SHIELD")) return "OffHand";
+        if (mat.contains("HELMET") || mat.contains("TURTLE")) return "Head";
+        if (mat.contains("CHESTPLATE")) return "Chest";
+        if (mat.contains("LEGGINGS")) return "Legs";
+        if (mat.contains("BOOTS")) return "Feet";
+        return "MainHand";
     }
 }

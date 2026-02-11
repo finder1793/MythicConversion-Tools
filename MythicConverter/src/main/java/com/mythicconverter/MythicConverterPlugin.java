@@ -7,11 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * <p>
  * Handles plugin lifecycle (enable/disable), loads the default configuration,
  * initializes stat mappings from {@code config.yml}, and registers the
- * {@code /convertitems} command with its executor and tab completer.
+ * {@code /convertitems} and {@code /convertia} commands.
  * </p>
  *
  * @see StatMappings
  * @see ConvertCommand
+ * @see ItemsAdderConvertCommand
  */
 public class MythicConverterPlugin extends JavaPlugin {
 
@@ -23,7 +24,7 @@ public class MythicConverterPlugin extends JavaPlugin {
      * <p>
      * Saves the default {@code config.yml} if it does not already exist,
      * loads all stat/attribute/slot mappings from the config, and registers
-     * the {@code /convertitems} command.
+     * the {@code /convertitems} and {@code /convertia} commands.
      * </p>
      */
     @Override
@@ -31,10 +32,16 @@ public class MythicConverterPlugin extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
         StatMappings.loadFromConfig(getConfig(), getLogger());
+
         ConvertCommand cmd = new ConvertCommand(this);
         getCommand("convertitems").setExecutor(cmd);
         getCommand("convertitems").setTabCompleter(cmd);
-        getLogger().info("MythicConverter enabled! Use /convertitems to convert MMOItems configs.");
+
+        ItemsAdderConvertCommand iaCmd = new ItemsAdderConvertCommand(this);
+        getCommand("convertia").setExecutor(iaCmd);
+        getCommand("convertia").setTabCompleter(iaCmd);
+
+        getLogger().info("MythicConverter enabled! Use /convertitems or /convertia to convert configs.");
     }
 
     /** Called when the plugin is disabled. Logs a shutdown message. */
